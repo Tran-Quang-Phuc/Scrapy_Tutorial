@@ -7,32 +7,25 @@ Scrapy là một framework được viết bằng Python, nó cung cấp một c
 ## 1.1. Thành phần
 Scrapy được thiết kế bao gồm 7 thành phần chính sau:
 
-**Scrapy Engine**
-
+**Scrapy Engine:**
 Engine chịu trách nhiệm điều khiển luồng giữa các thành phần của hệ thống.
 
-**Scheduler**
-
+**Scheduler:**
 Scheduler nhận các requests từ Engine và lập lịch thứ tự cho các URLs cần tải.
 
-**Downloader**
-
+**Downloader:**
 Downloader chịu trách nhiệm cho việc tìm tải các trang Web và cung cấp chúng cho Engine.
 
-**Spider**
-
+**Spider:**
 Spiders là class do người dùng viết, dùng để bóc tách dữ liệu cần thiết và tạo các URLs mới để nạp lại cho Scheduler qua Engine.
 
-**Item Pipeline**
-
+**Item Pipeline:**
 Item Pipeline chịu trách nhiệm xử lý các dữ liệu đã được bóc tách bởi Spiders và lưu trữ chúng vào cơ sở dữ liệu.
 
-**Downloader middlewares**
-
+**Downloader middlewares:**
 Downloader middlewares nằm giữa Engine và Downloader, xử lý các response được đẩy vào từ Engine và các response được tạo từ Downloader.
 
-**Spider middlewares**
-
+**Spider middlewares:**
 Spider middlewares nằm giữa Engine và Spiders, xử lý các response đầu vào của Spiders và đầu ra (item và các URLs mới).
 ## 1.2. Data flow
 ![Data flow image](https://doc.scrapy.org/en/latest/_images/scrapy_architecture_02.png)
@@ -114,7 +107,32 @@ Phương thức mặc định __init__ sẽ lấy bất kỳ đối số *Spider
             yield scrapy.Request(f'http://www.example.com/categories/{category}')
 
 ## 2.3. Một vài Spiders phổ biến
-Scrapy đi kèm với một số *Spiders* hữu ích mà có thể dùng để phân lớp các *Spiders*. Mục đích của chúng là cung cấp chức năng thuận tiện cho các trường hợp thu thập dữ liệu phổ biến như đi theo tất cả các liên kết trong một trang dựa trên một số quy tắc nhất định, thu thập từ *Sitemaps* hoặc phân tích nguồn cung cấp dữ liệu XML/CSV.
+Scrapy đi kèm với một số *Spiders* hữu ích mà có thể dùng để phân lớp các *Spiders*. Mục đích của chúng là cung cấp chức năng thuận tiện cho các trường hợp thu thập dữ liệu phổ biến như đi theo tất cả các liên kết trong một trang dựa trên một số quy tắc nhất định, thu thập từ Sitemaps [2] hoặc phân tích nguồn cung cấp dữ liệu XML/CSV.
 
 ### CrawlSpider
+    class scrapy.spiders.CrawlSpider
+
+Đây là *Spider* được sử dụng phổ biến nhất cho việc thu thập dữ liệu từ các website thông thường. Mục tiêu của chúng là cung cấp chức năng tiện lợi cho một số trường hợp thu thập thông thường như đi theo tất cả các liên kết trong một trang web dựa trên các quy tắc nhất định, thu thập thông tin từ Sitemaps hoặc phân tích nguồn cấp dữ liệu XML/CSV.
+
+### XMLFeedSpider
+    class scrapy.spiders.XMLFeedSpider
+
+XMLFeedSpider được thiết kế để phân tích các nguồn cung cấp dữ liệu XML bằng cách lặp lại chúng thông qua tên nút nhất định. Trình lặp có thể được chọn từ iternodes, XMl và HTML.
+
+### CSVFeedSpider
+    class scrapy.spiders.CSVFeedSpider
+
+Giống với XMLFeedSpider, CSVFeedSpider lặp qua các hàng thay vì các nút. Phương thức được gọi trong mỗi lần lặp là *parse_row().*
+
+### SitemapSpider
+    class scrapy.spiders.SitemapSpider
+
+SitemapSpider cho phép thu thập thông tin trang web bằng cách tìm kiếm các URLs sử dụng Sitemaps. Spider này hỗ trợ sơ đồ trang web lồng nhau và tìm kiếm sơ đồ trang web URL từ robots.txt [3].
+
+[2] https://www.sitemaps.org/index.html
+
+[3] http://www.robotstxt.org/
+
+# 3. Bóc tách dữ liệu
+## 3.1. Xpath
 
