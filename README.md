@@ -135,4 +135,82 @@ SitemapSpider cho phép thu thập thông tin trang web bằng cách tìm kiếm
 
 # 3. Bóc tách dữ liệu
 ## 3.1. Xpath
+XPath sử dụng các biểu thức đường dẫn để chọn các nodes hoặc tập hợp nodes trong tài liệu XML.
 
+Trong XPath có 7 loại nodes: element, attribute, text, namespace, processing-instruction, comment và document. Các tài liệu XML được coi như là một cây của các nút, phần tử ở trên cùng của cây được gọi là phần tử gốc.
+
+### Selecting nodes
+Dưới đây là các biểu thức hữu ích nhất trong Xpath:
+
+| Biểu thức | Mô tả |
+|---|---|
+|nodename|Chọn tất cả các nodes có tên "nodename" trong file XML.|
+|/|Chọn các nodes từ node gốc.|
+|//|Chọn các nodes trong tài liệu từ node hiện tại bất kể các nodes đó ở đâu.|
+|.|Chọn node hiện tại.|
+|..|Chọn cha của nốt hiện tại.|
+|@|Chọn các thuộc tính.|
+
+Lấy ví dụ với file XML như sau:
+
+    <?xml version="1.0" encoding="UTF-8"?>
+
+    <bookstore>
+
+    <book>
+      <title lang="en">Harry Potter</title>
+      <price>29.99</price>
+    </book>
+
+    <book>
+      <title lang="en">Learning XML</title>
+      <price>39.95</price>
+    </book>
+
+    </bookstore>
+
+Dưới đây là một vài biểu thức đường dẫn và kết quả của nó:
+
+|Biểu thức đường dẫn|Kết quả|
+|---|---|
+|bookstore|Chọn tất cả các nodes có tên "bookstore".|
+|/bookstore|Chọn phần tử gốc bookstore. (Chú ý: Nếu một đường dẫn bắt đầu bởi dấu gạch chéo (/) nó luôn luôn đại diện cho một đường dẫn tuyệt đối tới một phần tử.)|
+|bookstore/book|Chọn tất cả các phần tử book là con của bookstore.|
+|//book|Chọn tất cả các phần tử book bất kể chúng ở đâu trong tài liệu.|
+|bookstore//book|Chọn tất cả các phần tử book là con cháu của bookstore.|
+|//@lang|Chọn tất cả các thuộc tính có tên "lang".|
+
+### Predicates
+Predicates được sử dụng để tìm một node cụ thể hoặc node chứa một giá trị cụ thể. 
+
+Predicates luôn được đặt trong dấu ngoặc vuông.
+
+Bảng dưới đây liệt kê một số biểu thức đường dẫn với predicates và kết quả của nó:
+
+|Biểu thức đường dẫn|Kết quả|
+|---|---|
+|/bookstore/book[1]|Chọn phần tử book đầu tiên là con của phần tử bookstore.
+|/bookstore/book[last()]|Chọn phần tử book cuối cùng là con của phần tử bookstore.|
+|/bookstore/book[last()-1]|Chọn phần tử book cuối cùng thứ 2 là con của phần tử bookstore.|
+/bookstore/book[position()<3]|Chọn 2 phần tử book đầu tiên là con của phần tử bookstore.|
+|//title[@lang|Chọn tất cả các phần tử title có thuộc tính lang.
+|//title[@lang='en']|Chọn tất cả các phần tử title có thuộc tính lang với giá trị 'en'.|
+|bookstore/book[price>35.00]|Chọn tất cả các phần tử book là con của phần tử bookstore có phần tử price với giá trị lớn hơn 35.00
+|/bookstore/book[price>35.00]/title|Chọn tất cả các phần tử title của phần tử book của phần tử bookstore có phần tử price với giá trị lớn hơn 35.00
+
+### Selecting Unknown Nodes
+XPath sử dụng các ký tự đại diện để chọn các nodes XML không xác định.
+
+|Ký tự|Mô tả|
+|---|---|
+|*|Tương ứng với bất kỳ phần tử nào.|
+|@*|Tương ứng với bất kỳ thuộc tính nào.|
+|node()|Tương ứng với bất kỳ node thuộc bất kỳ kiểu nào.|
+
+Bảng dưới đây liệt kê một vài ví dụ và kết quả của chúng:
+
+|Biểu thức đường dẫn|Kết quả|
+|---|---|
+|/bookstore/*|Chọn tất cả các phần tử là con của phần tử bookstore.|
+|//*|Chọn tất cả các phần tử trong tài liệu.|
+|//title[@*]|Chọn tất cả các phần tử title có ít nhất một thuộc tính.
