@@ -216,3 +216,6 @@ Bảng dưới đây liệt kê một vài ví dụ và kết quả của chúng
 |//title[@*]|Chọn tất cả các phần tử title có ít nhất một thuộc tính.
 
 Nguồn: https://www.w3schools.com/xml/xpath_syntax.asp
+
+## 3.2. Sử dụng XPath trong Scrapy
+Để có thể thử nghiệm các truy vấn Xpath, chúng ta có thể sử dụng scrapy shell
