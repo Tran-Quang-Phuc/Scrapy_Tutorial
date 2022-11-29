@@ -217,5 +217,25 @@ Bảng dưới đây liệt kê một vài ví dụ và kết quả của chúng
 
 Nguồn: https://www.w3schools.com/xml/xpath_syntax.asp
 
-## 3.2. Sử dụng XPath trong Scrapy
-Để có thể thử nghiệm các truy vấn Xpath, chúng ta có thể sử dụng scrapy shell
+# 4. Running multiple spiders in the same process
+Theo mặc định, Scrapy chạy một spider  bằng câu lệnh *scrapy crawl*. Tuy nhiên, Scrapy cũng hỗ trợ chạy nhiều spider trong một tiến trình bằng cách sử dụng **internal API**
+
+*Ví dụ:*
+
+    import scrapy
+    from scrapy.crawler import CrawlerProcess
+    from scrapy.utils.project import get_project_settings
+
+    class Spider1(scrapy.Spider):
+        # spider1 definition
+        ...
+
+    class Spider2(scrapy.Spider):
+        # spider2 definition 
+        ...
+
+    settings = get_project_settings()
+    process = CrawlerProcess(settings)
+    process.crawl(Spider1)
+    process.crawl(Spider2)
+    process.start()
