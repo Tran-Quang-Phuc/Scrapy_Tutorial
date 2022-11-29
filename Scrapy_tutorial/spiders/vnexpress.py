@@ -1,4 +1,5 @@
 import scrapy
+from scrapy.crawler import CrawlerProcess
 
 
 class VnexpressSpider(scrapy.Spider):
@@ -45,6 +46,13 @@ class VnexpressSpider(scrapy.Spider):
             'Topic': response.xpath('//ul[@class="breadcrumb"]/li/a/text()').get(),
             'Category': response.xpath('//ul[@class="breadcrumb"]/li[2]/a/text()').get(),
             'Title': response.xpath('//h1/text()').get(),
-            'Content': ''.join(p for p in response.xpath('//p[@class="Normal" or @class="description"]/text()').getall()),
-            'Author': response.xpath('//p/strong/text()').get()
+            'Url': response.url,
+            'Author': response.xpath('//p/strong/text()').get(),
+            'Date': response.xpath('//span[@class="date"]/text()').get()
         }
+
+
+if __name__ == '__main__':
+    crawler = CrawlerProcess()
+    crawler.crawl(VnexpressSpider)
+    crawler.start()
